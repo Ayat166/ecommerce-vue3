@@ -1,5 +1,59 @@
-# Vue 3 + TypeScript + Vite
+# 🛜️ Vue eCommerce App
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A simple and modern eCommerce web application built with **Vue 3**, **TypeScript**, and **Vite**. This project serves as a frontend template for building scalable and responsive online stores.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+---
+
+## 🚀 Tech Stack
+
+* ⚙️ **Vite** – Lightning-fast frontend tooling
+* 🗼️ **Vue 3** – Composition API & reactive UI
+* ⌨️ **TypeScript** – Type-safe JavaScript
+* 💲 **Pinia** – Lightweight state management
+* 🌐 **Vue Router** – Client-side routing
+
+---
+
+## 📦 Project Setup
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Start development server
+
+```bash
+npm run dev
+```
+
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+│
+├── assets/         # Images, icons, etc.
+├── components/     # Reusable UI components
+├── pages/          # Route-based pages (Home, Product, Cart)
+├── router/         # Vue Router configuration
+├── store/          # Pinia stores (e.g., cart, user)
+├── App.vue         # Root component
+└── main.ts         # Entry file
+```
+
+---
+
+## 🧪 Features
+
+* 📦 Product listing
+* 🔍 Product details
+* 🛒 Add to cart
+* 💳 Checkout placeholder
+* ⚡ Fast development with Vite
+
+---
+
