@@ -39,21 +39,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import '../styles/navbar.css'
 
 export default defineComponent({
   name: 'Navbar',
-  setup() {
-    const isOpen = ref(false)
-
-    const toggleMenu = () => {
-      isOpen.value = !isOpen.value
-    }
-
+  data() {
     return {
-      isOpen,
-      toggleMenu
+      isOpen: false
+    }
+  },
+  methods: {
+    toggleMenu() {
+      this.isOpen = !this.isOpen
     }
   }
 })
