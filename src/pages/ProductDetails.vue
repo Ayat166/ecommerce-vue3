@@ -15,11 +15,12 @@ export default {
     components: { ProductCard },
     computed: {
         productId() {
-            try {
-                return parseInt(this.$route.params.id);
-            } catch (e) {
-                console.error('Invalid product ID:', this.$route.params.id);
-                return null;
+            const redirect = (path) => {
+                this.$router.push(path);
+            };
+            if (this.$route.params.id) {
+                const id = parseInt(this.$route.params.id);
+                return isNaN(id) ? redirect('/error') : id;
             }
         }
     },
