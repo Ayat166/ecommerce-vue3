@@ -2,8 +2,8 @@
     <div class="products-page">
         <h1>Products</h1>
         <div class="product-cards">
-            <ProductCard v-for="n in 6" :key="n" :title="`Product ${n}`"
-                :description="`Short description for product ${n}.`" />
+            <ProductCard v-for="n in 6" :key="n" :id="n" :title="`Product ${n}`"
+                :description="`Short description for product ${n}.`"  />
         </div>
     </div>
 </template>

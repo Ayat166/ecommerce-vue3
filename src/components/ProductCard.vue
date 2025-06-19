@@ -2,7 +2,7 @@
     <div class="product-card">
         <div class="product-image"></div>
         <div class="product-info">
-            <h2>{{ title }}</h2>
+            <router-link :to="`/product/${id}`"><h2>{{ title }}</h2></router-link>
             <p>{{ description }}</p>
             <button class="add-to-cart">Add to Cart</button>
         </div>
@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { RouterLink } from 'vue-router'
+
 export default {
     name: 'ProductCard',
     props: {
@@ -20,8 +22,15 @@ export default {
         description: {
             type: String,
             required: true
+        },
+        id: {
+            type: [Number, String],
+            required: true
         }
-    }
+    },
+    components: {
+        RouterLink
+    },
 }
 </script>
 
