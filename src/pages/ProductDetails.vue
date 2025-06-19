@@ -16,7 +16,7 @@ export default {
     computed: {
         productId() {
             try {
-                return parseInt(this.$route.params.id, 10);
+                return parseInt(this.$route.params.id);
             } catch (e) {
                 console.error('Invalid product ID:', this.$route.params.id);
                 return null;
