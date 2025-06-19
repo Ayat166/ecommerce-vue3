@@ -9,8 +9,8 @@
       </div>
 
       <nav :class="['nav-links', { open: isOpen }]">
-        <a href="#">Home</a>
-        <a href="#">Products</a>
+        <router-link to="/">Home</router-link>
+        <router-link to="/products">Products</router-link>
         <a href="#">Contact us</a>
       </nav>
       <div class="nav-icons">
@@ -47,9 +47,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { RouterLink } from 'vue-router'
 import '../styles/navbar.css'
 export default defineComponent({
   name: 'Navbar',
+  components: { RouterLink },
   data() {
     return {
       isOpen: false
