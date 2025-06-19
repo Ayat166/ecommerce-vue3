@@ -11,7 +11,7 @@
       <nav :class="['nav-links', { open: isOpen }]">
         <router-link to="/">Home</router-link>
         <router-link to="/products">Products</router-link>
-        <a href="#">Contact us</a>
+        <router-link to="/contact">Contact us</router-link>
       </nav>
       <div class="nav-icons">
         <button>
