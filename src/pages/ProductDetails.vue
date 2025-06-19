@@ -15,13 +15,7 @@ export default {
     components: { ProductCard },
     computed: {
         productId() {
-            const redirect = (path) => {
-                this.$router.push(path);
-            };
-            if (this.$route.params.id) {
-                const id = parseInt(this.$route.params.id);
-                return isNaN(id) ? redirect('/error') : id;
-            }
+            return this.$route.params.id ;
         }
     },
 }

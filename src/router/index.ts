@@ -12,9 +12,23 @@ const routes = [
   { path: '/contact', name: 'Contact', component: () => import('../pages/ContactUs.vue') }, 
 ]
 
+
 const router = createRouter({
   history: createWebHistory(),
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  if (
+    to.name === 'ProductDetails' &&
+    (
+      !to.params.id ||
+      isNaN(Number(to.params.id))
+    )
+  ) {
+    next({ name: 'Error' })
+  } else {
+    next()
+  }
+})
 export default router
