@@ -18,7 +18,7 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   if (
     to.name === 'ProductDetails' &&
     (
