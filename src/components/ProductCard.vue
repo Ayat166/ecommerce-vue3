@@ -10,7 +10,7 @@
             <RouterLink :to="`/product/${product.id}`">
                 <h2>{{ product.title }}</h2>
             </RouterLink>
-            <p class="product-price">{{ product.price }}</p>
+            <p class="product-price">${{ product.price }}</p>
             <p class="product-rating">{{ ratingStars }}</p>
 
 

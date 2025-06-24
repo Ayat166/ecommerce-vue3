@@ -28,6 +28,7 @@
 
 <script>
 import ProductCard from '../components/ProductCard.vue'
+import { mapGetters, mapActions } from 'vuex';
 export default {
     name: 'ProductsPage',
     components: { ProductCard },
@@ -35,19 +36,21 @@ export default {
         return {
             products: []
         }
+    }, 
+    computed: {
+        ...mapGetters(['allProducts'])
     },
     methods: {
-        fetchProducts() {
-            fetch('https://fakestoreapi.com/products')
-                .then(response => response.json())
-                .then(json => {
-                    this.products = json;
-                })
-                .catch(error => console.error('Error fetching products:', error));
-        }
+        ...mapActions(['fetchProducts'])
     },
-    mounted() {
-        this.fetchProducts();
+    // mounted() {
+    //     this.fetchProducts();
+    //     this.products = this.allProducts;
+    // },
+    created() {
+        this.fetchProducts().then(() => {
+            this.products = this.allProducts;
+        });
     }
 }
 </script>

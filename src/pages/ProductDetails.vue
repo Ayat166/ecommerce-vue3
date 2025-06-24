@@ -16,6 +16,7 @@
 
 <script>
 import { RouterLink } from 'vue-router'
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
     name: 'ProductDetails',
@@ -27,26 +28,36 @@ export default {
         ratingStars() {
             const rate = Math.round(this.product?.rating?.rate || 0);
             return '★'.repeat(rate) + '☆'.repeat(5 - rate);
-        }
+        },
+        ...mapGetters(['currentProduct'])
     },
     data() {
         return {
             product: null,
         }
     },
+
     methods: {
-        fetchProduct() {
-            fetch(`https://fakestoreapi.com/products/${this.productId}`)
-                .then(response => response.json())
-                .then(json => {
-                    this.product = json;
-                })
-                .catch(error => console.error('Error fetching product:', error));
-        }
+        ...mapActions(['fetchProduct'])
     },
     mounted() {
-        this.fetchProduct();
+        this.fetchProduct(this.productId).then(() => {
+            this.product = this.currentProduct;
+        });
     },
+        // methods: {
+    //     fetchProduct() {
+    //         fetch(`https://fakestoreapi.com/products/${this.productId}`)
+    //             .then(response => response.json())
+    //             .then(json => {
+    //                 this.product = json;
+    //             })
+    //             .catch(error => console.error('Error fetching product:', error));
+    //     }
+    // },
+    // mounted() {
+    //     this.fetchProduct();
+    // },
 }
 </script>
 
