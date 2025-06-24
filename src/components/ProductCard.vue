@@ -2,19 +2,20 @@
     <div class="product-card">
         <div class="product-image">
             <span class="image-placeholder">
-                <svg width="48" height="48" fill="none" viewBox="0 0 24 24"><rect width="100%" height="100%" rx="8" fill="#e0e7ef"/><path d="M7 17l3-3.86a1 1 0 0 1 1.54 0L17 17M9 13a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" stroke="#bcb8b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                 <img :src="product.image" alt="Product Image" class="image-placeholder" />
             </span>
+
         </div>
         <div class="product-info">
-            <slot name="title">
-                <router-link :to="`/product/${id}`"><h2>{{ title }}</h2></router-link>
-            </slot>
-            <slot name="description">
-                <p>{{ description }}</p>
-            </slot>
-            <slot name="actions">
-                <button class="btn add-to-cart">Add to Cart</button>
-            </slot>
+            <RouterLink :to="`/product/${product.id}`">
+                <h2>{{ product.title }}</h2>
+            </RouterLink>
+            <p class="product-price">{{ product.price }}</p>
+            <p class="product-rating">{{ ratingStars }}</p>
+
+
+            <button class="btn add-to-cart">Add to Cart</button>
+
         </div>
     </div>
 </template>
@@ -25,22 +26,20 @@ import { RouterLink } from 'vue-router'
 export default {
     name: 'ProductCard',
     props: {
-        title: {
-            type: String,
-            required: true
-        },
-        description: {
-            type: String,
-            required: true
-        },
-        id: {
-            type: [Number],
+        product: {
+            type: Object,
             required: true
         }
     },
     components: {
         RouterLink
     },
+    computed: {
+        ratingStars() {
+            const rate = Math.round(this.product.rating?.rate || 0);
+            return '★'.repeat(rate) + '☆'.repeat(5 - rate);
+        }
+    }
 }
 </script>
 
@@ -54,7 +53,7 @@ export default {
     display: flex;
     flex-direction: column;
     transition: box-shadow 0.2s;
-    margin: 0 ;
+    margin: 0;
 }
 
 .product-card:hover {
@@ -62,11 +61,34 @@ export default {
 }
 
 .product-image {
-    background: #f4f4f4;
-    height: 180px;
+    background: #fff;
+    height: 300px;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #e0e0e0;
+    transition: background 0.2s;
+    border-radius: 10px 10px 0 0;
+    padding: 1rem;
+}
+
+.product-image:hover {
+    background: #f4f4f4;
+}
+
+.product-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    border: 1px solid #e0e0e0;
+    padding: 0.25rem;
 }
 
 .image-placeholder {
@@ -83,6 +105,11 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    background: #fff;
+    border-radius: 0 0 10px 10px;
+    transition: background 0.2s;
 }
 
 .product-info h2 {
@@ -98,9 +125,17 @@ export default {
 
 .product-info p {
     flex: 1;
-    color: #666;
     font-size: 0.95rem;
     margin-bottom: 1rem;
 }
-
+.product-price {
+    font-weight: bold;
+    color: #4cab58;
+    margin-bottom: 0.5rem;
+}
+.product-rating {
+    color: #9a8c98;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
 </style>

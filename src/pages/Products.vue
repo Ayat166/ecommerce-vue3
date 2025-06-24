@@ -3,23 +3,24 @@
         <h1>Products</h1>
         <div class="product-cards">
             <ProductCard
-                v-for="n in 6"
-                :key="n"
-                :id="n"
-                :title="`Product ${n}`"
-                :description="`Short description for product ${n}.`"
+                v-for="product in products"
+                :key="product.id"
+                :product="product"
             >
+                <!-- <template #image>
+                        <img :src="product.image" alt="Product Image" class="image-placeholder" />
+                </template>
                 <template #title>
-                    <router-link :to="`/product/${n}`">
-                        <h2 style="color: #22223b">Product {{ n }}</h2>
+                    <router-link :to="`/product/${product.id}`">
+                        <h2 style="color: #22223b">{{ product.title }}</h2>
                     </router-link>
                 </template>
                 <template #description>
-                    <p>Short description for product {{ n }} </p>
+                    <p>{{ product.description }}</p>
                 </template>
                 <template #actions>
                     <button class="btn add-to-cart">Add to Cart</button>
-                </template>
+                </template> -->
             </ProductCard>
         </div>
     </div>
@@ -29,7 +30,25 @@
 import ProductCard from '../components/ProductCard.vue'
 export default {
     name: 'ProductsPage',
-    components: { ProductCard }
+    components: { ProductCard },
+    data() {
+        return {
+            products: []
+        }
+    },
+    methods: {
+        fetchProducts() {
+            fetch('https://fakestoreapi.com/products')
+                .then(response => response.json())
+                .then(json => {
+                    this.products = json;
+                })
+                .catch(error => console.error('Error fetching products:', error));
+        }
+    },
+    mounted() {
+        this.fetchProducts();
+    }
 }
 </script>
 

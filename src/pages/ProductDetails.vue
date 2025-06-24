@@ -1,64 +1,176 @@
 <template>
-    <div class="container">
-        <h1 class="product-title text-center mb-1 mt-1">Product {{ productId }}</h1>
+    <div class="product-details-container">
         <div class="product-details-card">
-            <ProductCard :id="productId" :title="`Product ${productId}`"
-                :description="`Short description for product ${productId}.`">
-                <template #title>
-                    <router-link :to="`/product/${productId}`">
-                        <h2>Product {{ productId }}</h2>
-                    </router-link>
-                </template>
-                <template #description>
-                    <p>
-                        This is a <b>custom description</b> for product {{ productId }}.<br>
-                        You can add more details here!
-                    </p>
-                </template>
-                <template #actions>
-                    <button class="btn">Add to Cart</button>
-                    <button class="btn">Buy Now</button>
-                </template>
-            </ProductCard>
+            <img :src="product?.image" alt="Product Image" class="product-details-image" />
+            <div class="product-details-info">
+                <h1 class="product-title">{{ product?.title }}</h1>
+                <p class="product-price">${{ product?.price }}</p>
+                <p class="product-rating">{{ ratingStars }} <span class="rating-count">({{ product?.rating?.count }} reviews)</span></p>
+                <p class="product-description">{{ product?.description }}</p>
+                <button class="btn add-to-cart">Add to Cart</button>
+                <RouterLink to="/products" class="btn back-btn">Back to Products</RouterLink>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import ProductCard from '../components/ProductCard.vue'
+import { RouterLink } from 'vue-router'
+
 export default {
     name: 'ProductDetails',
-    components: { ProductCard },
+    components: { RouterLink },
     computed: {
         productId() {
             return this.$route.params.id ;
+        },
+        ratingStars() {
+            const rate = Math.round(this.product?.rating?.rate || 0);
+            return '★'.repeat(rate) + '☆'.repeat(5 - rate);
         }
+    },
+    data() {
+        return {
+            product: null,
+        }
+    },
+    methods: {
+        fetchProduct() {
+            fetch(`https://fakestoreapi.com/products/${this.productId}`)
+                .then(response => response.json())
+                .then(json => {
+                    this.product = json;
+                })
+                .catch(error => console.error('Error fetching product:', error));
+        }
+    },
+    mounted() {
+        this.fetchProduct();
     },
 }
 </script>
 
 <style scoped>
-.product-title {
-    font-size: 2rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    margin-bottom: 2rem;
-}
-
-.product-details-card {
+.product-details-container {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    min-height: 80vh;
+    background: #f8f9fa;
+    padding: 2rem 0;
+}
+.product-details-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    padding: 2rem;
     width: 100%;
+    padding: 1rem 2rem;
+}
+.product-details-image {
+    width: 500px;
+    height: 500px;
+    object-fit: contain;
+    border-radius: 12px;
+    background: #f4f4f4;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    border: 1px solid #e0e0e0;
+    padding: 0.2rem;
+}
+.product-details-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.product-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #22223b;
+}
+.product-price {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #4cab58;
+    margin-bottom: 0.75rem;
+}
+.product-rating {
+    font-size: 1.1rem;
+    color: #f7b731;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+}
+.rating-count {
+    color: #888;
+    font-size: 0.95rem;
+    margin-left: 0.5rem;
+}
+.product-description {
+    color: #444;
+    font-size: 1.05rem;
     margin-bottom: 2rem;
 }
-
-.product-details-card .product-card {
+.btn.add-to-cart {
+    background: #4cab58;
+    color: #fff;
+    margin-bottom: 1rem;
+    width: 200px;
+    align-self: flex-start;
+}
+.btn.back-btn {
+    background: #666;
+    color: #fff;
+    width: 200px;
+    align-self: flex-start;
+}
+.btn.add-to-cart:hover {
+    background: #388e3c;
+}
+.btn.back-btn:hover {
+    background: #333;
+}
+@media (max-width: 1024px) {
+  .product-details-card {
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+  .product-details-image {
+    width: 350px;
+    height: 350px;
+  }
+}
+@media (max-width: 600px) {
+  .product-details-container {
+    padding: 0.5rem 0;
+  }
+  .product-details-card {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .product-details-image {
     width: 100%;
-    max-width: 400px;
-    min-width: 280px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-    border-radius: 12px;
-    background: #fff;
+    height: 220px;
+    max-width: 100%;
+    padding: 0.1rem;
+  }
+  .product-details-info {
+    padding: 0;
+  }
+  .product-title {
+    font-size: 1.2rem;
+  }
+  .product-price, .product-rating, .product-description {
+    font-size: 1rem;
+  }
+  .btn.add-to-cart, .btn.back-btn {
+    width: 100%;
+    min-width: 0;
+  }
 }
 </style>
