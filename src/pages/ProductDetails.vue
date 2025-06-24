@@ -3,7 +3,23 @@
         <h1 class="product-title text-center mb-1 mt-1">Product {{ productId }}</h1>
         <div class="product-details-card">
             <ProductCard :id="productId" :title="`Product ${productId}`"
-                :description="`Short description for product ${productId}.`" />
+                :description="`Short description for product ${productId}.`">
+                <template #title>
+                    <router-link :to="`/product/${productId}`">
+                        <h2>Product {{ productId }}</h2>
+                    </router-link>
+                </template>
+                <template #description>
+                    <p>
+                        This is a <b>custom description</b> for product {{ productId }}.<br>
+                        You can add more details here!
+                    </p>
+                </template>
+                <template #actions>
+                    <button class="btn">Add to Cart</button>
+                    <button class="btn">Buy Now</button>
+                </template>
+            </ProductCard>
         </div>
     </div>
 </template>
@@ -25,7 +41,6 @@ export default {
 .product-title {
     font-size: 2rem;
     font-weight: 600;
-    color: #22223b;
     letter-spacing: 0.5px;
     margin-bottom: 2rem;
 }

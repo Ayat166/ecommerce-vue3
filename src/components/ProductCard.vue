@@ -6,9 +6,15 @@
             </span>
         </div>
         <div class="product-info">
-            <router-link :to="`/product/${id}`"><h2>{{ title }}</h2></router-link>
-            <p>{{ description }}</p>
-            <button class="btn add-to-cart">Add to Cart</button>
+            <slot name="title">
+                <router-link :to="`/product/${id}`"><h2>{{ title }}</h2></router-link>
+            </slot>
+            <slot name="description">
+                <p>{{ description }}</p>
+            </slot>
+            <slot name="actions">
+                <button class="btn add-to-cart">Add to Cart</button>
+            </slot>
         </div>
     </div>
 </template>
@@ -41,25 +47,23 @@ export default {
 <style scoped>
 .product-card {
     background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
-    border: 1px solid #ececec;
-    width: 26em;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    width: 20em;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: box-shadow 0.2s, transform 0.2s;
-    margin: 0 auto;
+    transition: box-shadow 0.2s;
+    margin: 0 ;
 }
 
 .product-card:hover {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.16);
-    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
 }
 
 .product-image {
-    background: linear-gradient(135deg, #f4f4f4 60%, #e0e7ef 100%);
-    height: 200px;
+    background: #f4f4f4;
+    height: 180px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -74,7 +78,7 @@ export default {
 }
 
 .product-info {
-    padding: 1.5rem 1.25rem 1.25rem 1.25rem;
+    padding: 1rem;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -82,9 +86,8 @@ export default {
 }
 
 .product-info h2 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin: 0 0 0.75rem 0;
+    font-size: 1.2rem;
+    margin: 0 0 0.5rem 0;
     color: #22223b;
     transition: color 0.2s;
 }
@@ -96,25 +99,8 @@ export default {
 .product-info p {
     flex: 1;
     color: #666;
-    font-size: 1.05rem;
-    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
 }
 
-.add-to-cart {
-    width: 100%;
-    font-size: 1rem;
-    font-weight: 500;
-    padding: 0.7rem 0;
-    border-radius: 6px;
-    margin-top: 0.5rem;
-    background-color: #666;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.add-to-cart:hover {
-    background-color: #3a3737;
-}
 </style>
