@@ -10,6 +10,7 @@ export interface Product {
 export interface State {
   products: Product[];
   product: Product | null;
+  cart: Product[];
 }
 export interface Commit{
   (type: string, payload?: any): void;
@@ -17,7 +18,8 @@ export interface Commit{
 export default createStore({
   state: {
     products: [] as Product[],
-    product: null
+    product: null,
+    cart:[] as Product[],
   },
   mutations: {
     setProducts(state: State, products: Product[]) {
@@ -25,7 +27,19 @@ export default createStore({
     },
     setProduct(state: State, product: Product | null) {
       state.product = product;
-    } 
+    },
+    addToCart(state: State, product: Product) {
+      // Check if the product is already in the cart
+      const existingProduct = state.cart.find(item => item.id === product.id);
+      if (existingProduct) {
+        // If it exists, you might want to update the quantity or just return
+        return;
+      }
+      state.cart.push(product);
+    },
+    removeFromCart(state: State, productId: number) {
+      state.cart = state.cart.filter(item => item.id !== productId);
+    }
   },
   actions: {
     async fetchProducts({ commit }: { commit: Commit  }) {
@@ -41,6 +55,8 @@ export default createStore({
   },
   getters: {
     allProducts: (state: State) => state.products,
-    currentProduct: (state: State) => state.product
+    currentProduct: (state: State) => state.product,
+    cartItems: (state: State) => state.cart,
+    cartCount: (state: State) => state.cart.length,
   }
 });

@@ -14,7 +14,7 @@
             <p class="product-rating">{{ ratingStars }}</p>
 
 
-            <button class="btn add-to-cart">Add to Cart</button>
+            <button class="btn add-to-cart" @click="handleAddToCart">Add to Cart</button>
 
         </div>
     </div>
@@ -22,6 +22,7 @@
 
 <script>
 import { RouterLink } from 'vue-router'
+import { mapMutations } from 'vuex';
 
 export default {
     name: 'ProductCard',
@@ -39,7 +40,13 @@ export default {
             const rate = Math.round(this.product.rating?.rate || 0);
             return '★'.repeat(rate) + '☆'.repeat(5 - rate);
         }
-    }
+    },
+    methods: {
+        ...mapMutations(['addToCart']),
+        handleAddToCart() {
+            this.addToCart(this.product);
+        }
+    },
 }
 </script>
 
