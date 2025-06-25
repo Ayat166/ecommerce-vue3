@@ -1,27 +1,11 @@
 <template>
     <div class="products-page">
         <h1>Products</h1>
+        <div class="sort-controls">
+            <SortDropdown @sort="sortProducts" />
+        </div>
         <div class="product-cards">
-            <ProductCard
-                v-for="product in products"
-                :key="product.id"
-                :product="product"
-            >
-                <!-- <template #image>
-                        <img :src="product.image" alt="Product Image" class="image-placeholder" />
-                </template>
-                <template #title>
-                    <router-link :to="`/product/${product.id}`">
-                        <h2 style="color: #22223b">{{ product.title }}</h2>
-                    </router-link>
-                </template>
-                <template #description>
-                    <p>{{ product.description }}</p>
-                </template>
-                <template #actions>
-                    <button class="btn add-to-cart">Add to Cart</button>
-                </template> -->
-            </ProductCard>
+            <ProductCard v-for="product in products" :key="product.id" :product="product" />
         </div>
     </div>
 </template>
@@ -29,29 +13,39 @@
 <script>
 import ProductCard from '../components/ProductCard.vue'
 import { mapGetters, mapActions } from 'vuex';
+import SortDropdown from '../components/SortDropdown.vue';
 export default {
     name: 'ProductsPage',
-    components: { ProductCard },
+    components: { ProductCard, SortDropdown },
     data() {
         return {
             products: []
         }
-    }, 
+    },
     computed: {
         ...mapGetters(['allProducts'])
     },
-    methods: {
-        ...mapActions(['fetchProducts'])
-    },
-    // mounted() {
-    //     this.fetchProducts();
-    //     this.products = this.allProducts;
-    // },
-    created() {
+    mounted() {
         this.fetchProducts().then(() => {
             this.products = this.allProducts;
         });
-    }
+    },
+    methods: {
+        ...mapActions(['fetchProducts']),
+        sortProducts(sortOption) {
+            if (sortOption === 'price-asc') {
+                this.products.sort((a, b) => a.price - b.price);
+            } else if (sortOption === 'price-desc') {
+                this.products.sort((a, b) => b.price - a.price);
+            } else if (sortOption === 'rating') {
+                this.products.sort((a, b) => b.rating.rate - a.rating.rate);
+            } else {
+                // Default case: no sorting
+                this.products = [...this.allProducts];
+            }
+        }
+    },
+  
 }
 </script>
 
@@ -70,5 +64,10 @@ export default {
     flex-wrap: wrap;
     gap: 2rem;
     justify-content: center;
+}
+.sort-controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
 }
 </style>

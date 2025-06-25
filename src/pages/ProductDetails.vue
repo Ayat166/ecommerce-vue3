@@ -45,19 +45,6 @@ export default {
             this.product = this.currentProduct;
         });
     },
-        // methods: {
-    //     fetchProduct() {
-    //         fetch(`https://fakestoreapi.com/products/${this.productId}`)
-    //             .then(response => response.json())
-    //             .then(json => {
-    //                 this.product = json;
-    //             })
-    //             .catch(error => console.error('Error fetching product:', error));
-    //     }
-    // },
-    // mounted() {
-    //     this.fetchProduct();
-    // },
 }
 </script>
 
