@@ -22,7 +22,7 @@
 
 <script>
 import { RouterLink } from 'vue-router'
-import { mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
     name: 'ProductCard',
@@ -42,7 +42,7 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['addToCart']),
+        ...mapActions(['addToCart']),
         handleAddToCart() {
             this.addToCart(this.product);
         }

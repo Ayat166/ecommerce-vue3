@@ -22,7 +22,7 @@
           </svg>
         </button>
         <a href="#" class="sign-in">Sign In</a>
-        <button @click="$emit('show-cart')">
+        <button @click="$emit('show-cart')" class="cart-btn">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M5 5H19L17.5 13H6.5L5 5Z" stroke="#4B4B60" stroke-width="2" stroke-linejoin="round" />
             <path
@@ -33,6 +33,7 @@
               fill="#4B4B60" />
             <path d="M2 2H4L4.5 5" stroke="#4B4B60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
+          <span v-show="cartCount > 0" class="cart-badge">{{ cartCount }}</span>
         </button>
       </div>
 
@@ -48,10 +49,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { RouterLink } from 'vue-router'
+import { mapGetters } from 'vuex'
 import '../styles/navbar.css'
 export default defineComponent({
   name: 'Navbar',
   components: { RouterLink },
+  computed: {
+    ...mapGetters(['cartCount']),
+  },
   data() {
     return {
       isOpen: false
@@ -62,5 +67,27 @@ export default defineComponent({
       this.isOpen = !this.isOpen
     }
   }
+  
 })
 </script>
+
+<style scoped>
+.cart-btn {
+  position: relative;
+}
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #e63946;
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 7px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  min-width: 22px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(230,57,70,0.15);
+  z-index: 1;
+}
+</style>

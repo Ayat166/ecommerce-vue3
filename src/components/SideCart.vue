@@ -43,7 +43,7 @@
 <script>
 import { defineComponent } from 'vue'
 import { RouterLink } from 'vue-router';
-import { mapGetters , mapMutations } from 'vuex';
+import { mapGetters , mapActions } from 'vuex';
 export default defineComponent({
     props: {
         isActive: {
@@ -61,7 +61,7 @@ export default defineComponent({
         }
     },
     methods: {
-        ...mapMutations(['removeFromCart']),
+        ...mapActions(['removeFromCart']),
         handleRemove(productId) {
             this.removeFromCart(productId);
         }

@@ -7,7 +7,7 @@
                 <p class="product-price">${{ product?.price }}</p>
                 <p class="product-rating">{{ ratingStars }} <span class="rating-count">({{ product?.rating?.count }} reviews)</span></p>
                 <p class="product-description">{{ product?.description }}</p>
-                <button class="btn add-to-cart">Add to Cart</button>
+                <button class="btn add-to-cart" @click="handleAddToCart">Add to Cart</button>
                 <RouterLink to="/products" class="btn back-btn">Back to Products</RouterLink>
             </div>
         </div>
@@ -16,7 +16,7 @@
 
 <script>
 import { RouterLink } from 'vue-router'
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions , mapMutations } from 'vuex';
 
 export default {
     name: 'ProductDetails',
@@ -38,7 +38,11 @@ export default {
     },
 
     methods: {
-        ...mapActions(['fetchProduct'])
+        ...mapActions(['fetchProduct']),
+        ...mapActions(['addToCart']),
+        handleAddToCart() {
+            this.addToCart(this.product);
+        }
     },
     mounted() {
         this.fetchProduct(this.productId).then(() => {

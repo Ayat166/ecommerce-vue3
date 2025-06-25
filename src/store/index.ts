@@ -33,15 +33,16 @@ export default createStore({
     setProduct(state: State, product: Product | null) {
       state.product = product;
     },
-    addToCart(state: State, product: Product) {
-      const existingProduct = state.cart.find(item => item.product.id === product.id);
-      if (existingProduct) {
-        existingProduct.quantity += 1;
-        return;
-      }
-      state.cart.push({ product, quantity: 1 });
+    addCartItem(state: State, item: ProductCart) {
+      state.cart.push(item);
     },
-    removeFromCart(state: State, productId: number) {
+    updateCartItemQuantity(state: State, payload: { productId: number; quantity: number }) {
+      const existingProduct = state.cart.find(item => item.product.id === payload.productId);
+      if (existingProduct) {
+        existingProduct.quantity = payload.quantity;
+      }
+    },
+    removeCartItem(state: State, productId: number) {
       state.cart = state.cart.filter(item => item.product.id !== productId);
     }
   },
@@ -55,6 +56,17 @@ export default createStore({
       const res = await fetch(`https://fakestoreapi.com/products/${id}`);
       const data = await res.json();
       commit('setProduct', data);
+    },
+    addToCart({ state, commit }: { state: State; commit: Commit }, product: Product) {
+      const existingProduct = state.cart.find(item => item.product.id === product.id);
+      if (existingProduct) {
+        commit('updateCartItemQuantity', { productId: product.id, quantity: existingProduct.quantity + 1 });
+      } else {
+        commit('addCartItem', { product, quantity: 1 });
+      }
+    },
+    removeFromCart({ commit }: { commit: Commit }, productId: number) {
+      commit('removeCartItem', productId);
     }
   },
   getters: {
