@@ -5,7 +5,7 @@
                 <h3>Shopping Cart</h3>
                 <button class="close-btn" @click="$emit('close')">&times;</button>
             </div>
-            <div class="cart-content" v-show="products.length === 0">
+            <div class="cart-content" v-show="cartItemsArray.length === 0">
                 <div class="empty-cart" >
                     <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="1.5">
@@ -17,14 +17,17 @@
                     <RouterLink to="/products"><button class="shop-now-btn" @click="$emit('close')">Shop Now</button></RouterLink>
                 </div>
             </div>
-            <div class="cart-content" v-show="products.length > 0">
+            <div class="cart-content" v-show="cartItemsArray.length > 0">
                 <ul>
-                    <li v-for="product in products" :key="product.id">
+                    <li v-for="item in cartItemsArray" :key="item.product.id">
                         <div class="product-item">
-                            <img :src="product.image" alt="Product Image" class="cart-image" />
+                            <img :src="item.product.image" alt="Product Image" class="cart-image" />
                             <div class="product-details">
-                                <h4>{{ product.title }}</h4>
-                                <p>Price: ${{ product.price }}</p>
+                                <h4>{{ item.product.title }}</h4>
+                                <p>Price: ${{ item.product.price }}</p>
+                            </div>
+                            <div class="product-quantity">
+                                <p>Qty: {{ item.quantity }}</p>
                             </div>
                         </div>
                     </li>
@@ -50,7 +53,7 @@ export default defineComponent({
     },
     computed: {
         ...mapGetters(['cartItems']),
-        products() {
+        cartItemsArray() {
             return this.cartItems;
         }
     }
@@ -210,5 +213,22 @@ ul {
     color: #4cab58;
     margin: 0;
     font-weight: 500;
+}
+.product-quantity {
+    font-size: 0.9rem;
+    color: #888;
+    margin-left: 16px;
+    flex-shrink: 0;
+    padding: 4px 8px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    transition: background 0.2s, box-shadow 0.2s;
 }
 </style>

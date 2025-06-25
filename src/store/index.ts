@@ -7,19 +7,24 @@ export interface Product {
   description: string;
   image: string;
 }
+export interface ProductCart {
+  product: Product;
+  quantity: number;
+}
 export interface State {
   products: Product[];
   product: Product | null;
-  cart: Product[];
+  cart: ProductCart[];
 }
 export interface Commit{
   (type: string, payload?: any): void;
 }
+
 export default createStore({
   state: {
     products: [] as Product[],
     product: null,
-    cart:[] as Product[],
+    cart:[] as ProductCart[],
   },
   mutations: {
     setProducts(state: State, products: Product[]) {
@@ -29,16 +34,15 @@ export default createStore({
       state.product = product;
     },
     addToCart(state: State, product: Product) {
-      // Check if the product is already in the cart
-      const existingProduct = state.cart.find(item => item.id === product.id);
+      const existingProduct = state.cart.find(item => item.product.id === product.id);
       if (existingProduct) {
-        // If it exists, you might want to update the quantity or just return
+        existingProduct.quantity += 1;
         return;
       }
-      state.cart.push(product);
+      state.cart.push({ product, quantity: 1 });
     },
     removeFromCart(state: State, productId: number) {
-      state.cart = state.cart.filter(item => item.id !== productId);
+      state.cart = state.cart.filter(item => item.product.id !== productId);
     }
   },
   actions: {
@@ -57,6 +61,6 @@ export default createStore({
     allProducts: (state: State) => state.products,
     currentProduct: (state: State) => state.product,
     cartItems: (state: State) => state.cart,
-    cartCount: (state: State) => state.cart.length,
+    cartCount: (state: State) => state.cart.reduce((total, item) => total + item.quantity, 0),
   }
 });
