@@ -29,6 +29,9 @@
                             <div class="product-quantity">
                                 <p>Qty: {{ item.quantity }}</p>
                             </div>
+                            <div>
+                                <button class="close-btn" @click="handleRemove(item.product.id)">&times;</button>
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -40,7 +43,7 @@
 <script>
 import { defineComponent } from 'vue'
 import { RouterLink } from 'vue-router';
-import { mapGetters } from 'vuex';
+import { mapGetters , mapMutations } from 'vuex';
 export default defineComponent({
     props: {
         isActive: {
@@ -55,6 +58,12 @@ export default defineComponent({
         ...mapGetters(['cartItems']),
         cartItemsArray() {
             return this.cartItems;
+        }
+    },
+    methods: {
+        ...mapMutations(['removeFromCart']),
+        handleRemove(productId) {
+            this.removeFromCart(productId);
         }
     }
 
