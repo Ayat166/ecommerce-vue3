@@ -33,7 +33,7 @@
               fill="#4B4B60" />
             <path d="M2 2H4L4.5 5" stroke="#4B4B60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
-          <span v-show="cartCount > 0" class="cart-badge">{{ cartCount }}</span>
+          <span v-show="Number(cartCount) > 0" class="cart-badge">{{ Number(cartCount) }}</span>
         </button>
       </div>
 
