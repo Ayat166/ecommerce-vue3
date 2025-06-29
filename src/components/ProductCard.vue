@@ -2,7 +2,7 @@
     <div class="product-card">
         <div class="product-image">
             <span class="image-placeholder">
-                 <img :src="product.image" alt="Product Image" class="image-placeholder" />
+                <img :src="product.image" alt="Product Image" class="image-placeholder" />
             </span>
 
         </div>
@@ -20,7 +20,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { RouterLink } from 'vue-router'
 import { mapActions } from 'vuex';
 

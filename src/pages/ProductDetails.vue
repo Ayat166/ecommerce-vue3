@@ -5,7 +5,8 @@
             <div class="product-details-info">
                 <h1 class="product-title">{{ product?.title }}</h1>
                 <p class="product-price">${{ product?.price }}</p>
-                <p class="product-rating">{{ ratingStars }} <span class="rating-count">({{ product?.rating?.count }} reviews)</span></p>
+                <p class="product-rating">{{ ratingStars }} <span class="rating-count">({{ product?.rating?.count }}
+                        reviews)</span></p>
                 <p class="product-description">{{ product?.description }}</p>
                 <button class="btn add-to-cart" @click="handleAddToCart">Add to Cart</button>
                 <RouterLink to="/products" class="btn back-btn">Back to Products</RouterLink>
@@ -14,16 +15,16 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { RouterLink } from 'vue-router'
-import { mapGetters, mapActions , mapMutations } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
     name: 'ProductDetails',
     components: { RouterLink },
     computed: {
         productId() {
-            return this.$route.params.id ;
+            return this.$route.params.id;
         },
         ratingStars() {
             const rate = Math.round(this.product?.rating?.rate || 0);
@@ -61,10 +62,11 @@ export default {
     background: #f8f9fa;
     padding: 2rem 0;
 }
+
 .product-details-card {
     background: #fff;
     border-radius: 16px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: row;
     gap: 2rem;
@@ -78,10 +80,11 @@ export default {
     object-fit: contain;
     border-radius: 12px;
     background: #f4f4f4;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
     border: 1px solid #e0e0e0;
     padding: 0.2rem;
 }
+
 .product-details-info {
     flex: 1;
     display: flex;
@@ -129,50 +132,64 @@ export default {
     width: 200px;
     align-self: flex-start;
 }
+
 .btn.add-to-cart:hover {
     background: #388e3c;
 }
+
 .btn.back-btn:hover {
     background: #333;
 }
+
 @media (max-width: 1024px) {
-  .product-details-card {
-    flex-direction: column;
-    align-items: center;
-    padding: 1.5rem;
-    gap: 1.5rem;
-  }
-  .product-details-image {
-    width: 350px;
-    height: 350px;
-  }
+    .product-details-card {
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+
+    .product-details-image {
+        width: 350px;
+        height: 350px;
+    }
 }
+
 @media (max-width: 600px) {
-  .product-details-container {
-    padding: 0.5rem 0;
-  }
-  .product-details-card {
-    padding: 1rem;
-    gap: 1rem;
-  }
-  .product-details-image {
-    width: 100%;
-    height: 220px;
-    max-width: 100%;
-    padding: 0.1rem;
-  }
-  .product-details-info {
-    padding: 0;
-  }
-  .product-title {
-    font-size: 1.2rem;
-  }
-  .product-price, .product-rating, .product-description {
-    font-size: 1rem;
-  }
-  .btn.add-to-cart, .btn.back-btn {
-    width: 100%;
-    min-width: 0;
-  }
+    .product-details-container {
+        padding: 0.5rem 0;
+    }
+
+    .product-details-card {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .product-details-image {
+        width: 100%;
+        height: 220px;
+        max-width: 100%;
+        padding: 0.1rem;
+    }
+
+    .product-details-info {
+        padding: 0;
+    }
+
+    .product-title {
+        font-size: 1.2rem;
+    }
+
+    .product-price,
+    .product-rating,
+    .product-description {
+        font-size: 1rem;
+    }
+
+    .btn.add-to-cart,
+    .btn.back-btn {
+        width: 100%;
+        min-width: 0;
+    }
 }
 </style>

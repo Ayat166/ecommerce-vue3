@@ -1,24 +1,24 @@
 <template>
     <div>
-        <Navbar @show-cart="sideCartOpen = true" />
+        <NavbarComponent @show-cart="sideCartOpen = true" />
         <SideCart :isActive="sideCartOpen" @close="sideCartOpen = false" />
         <main>
             <slot />
         </main>
-        <Footer />
+        <FooterComponent />
     </div>
 </template>
 
-<script>
-import Navbar from './Navbar.vue'
-import Footer from './Footer.vue'
+<script lang="ts">
+import NavbarComponent from './Navbar.vue'
+import FooterComponent from './Footer.vue'
 import SideCart from './SideCart.vue'
 
 export default {
-    name: 'Layout',
+    name: 'LayoutPage',
     components: {
-        Navbar,
-        Footer,
+        NavbarComponent,
+        FooterComponent,
         SideCart
     },
     data() {

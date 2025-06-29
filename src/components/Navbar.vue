@@ -52,7 +52,7 @@ import { RouterLink } from 'vue-router'
 import { mapGetters } from 'vuex'
 import '../styles/navbar.css'
 export default defineComponent({
-  name: 'Navbar',
+  name: 'NavbarComponent',
   components: { RouterLink },
   computed: {
     ...mapGetters(['cartCount']),
@@ -67,7 +67,6 @@ export default defineComponent({
       this.isOpen = !this.isOpen
     }
   }
-  
 })
 </script>
 
@@ -75,6 +74,7 @@ export default defineComponent({
 .cart-btn {
   position: relative;
 }
+
 .cart-badge {
   position: absolute;
   top: -8px;
@@ -87,7 +87,7 @@ export default defineComponent({
   font-weight: bold;
   min-width: 22px;
   text-align: center;
-  box-shadow: 0 2px 6px rgba(230,57,70,0.15);
+  box-shadow: 0 2px 6px rgba(230, 57, 70, 0.15);
   z-index: 1;
 }
 </style>

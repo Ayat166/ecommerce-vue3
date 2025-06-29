@@ -6,8 +6,9 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
+    name: "ErrorPage"
 
 }
 </script>
@@ -38,9 +39,11 @@ export default {
     color: #0056b3;
     text-decoration: none;
 }
+
 .error a:hover {
     text-decoration: underline;
 }
+
 .error a:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.5);

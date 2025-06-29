@@ -7,25 +7,18 @@ const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/products', name: 'Products', component: Products },
   { path: '/product/:id', name: 'ProductDetails', component: ProductDetails },
-  { path: '/:catchAll(.*)', redirect: '/' }, 
+  { path: '/:catchAll(.*)', redirect: '/' },
   { path: '/error', name: 'Error', component: () => import('../pages/Error.vue') },
-  { path: '/contact', name: 'Contact', component: () => import('../pages/ContactUs.vue') }, 
+  { path: '/contact', name: 'Contact', component: () => import('../pages/ContactUs.vue') },
 ]
-
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 })
 
 router.beforeEach((to, _, next) => {
-  if (
-    to.name === 'ProductDetails' &&
-    (
-      !to.params.id ||
-      isNaN(Number(to.params.id))
-    )
-  ) {
+  if (to.name === 'ProductDetails' && (!to.params.id || isNaN(Number(to.params.id)))) {
     next({ name: 'Error' })
   } else {
     next()

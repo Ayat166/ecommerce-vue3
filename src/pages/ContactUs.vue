@@ -16,14 +16,14 @@
                     <textarea id="message" rows="4" required></textarea>
                 </div>
                 <div class="form-group">
-                     <button type="submit" >Send Message</button>
+                    <button type="submit">Send Message</button>
                 </div>
             </form>
         </div>
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
 
 }
@@ -46,9 +46,11 @@ export default {
     border-radius: 8px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
 }
+
 .form-group {
     margin-bottom: 1.5rem;
 }
+
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
@@ -67,9 +69,11 @@ export default {
     border-color: #666;
     outline: none;
 }
+
 .form-group textarea {
     resize: vertical;
 }
+
 .form-group button {
     background-color: #666;
     color: #fff;
@@ -83,8 +87,9 @@ export default {
     font-weight: 600;
     text-align: center;
     display: inline-block;
-    
+
 }
+
 .form-group button:hover {
     background-color: #666;
 }

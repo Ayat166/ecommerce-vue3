@@ -6,11 +6,20 @@ A simple and modern eCommerce web application built with **Vue 3**, **TypeScript
 
 ## 🚀 Tech Stack
 
+<<<<<<< HEAD
+
+- ⚙️ **Vite** – Lightning-fast frontend tooling
+- 🗼️ **Vue 3** – Composition API & reactive UI
+- ⌨️ **TypeScript** – Type-safe JavaScript
+- 💲 **Pinia** – Lightweight state management
+- # 🌐 **Vue Router** – Client-side routing
+
 * ⚙️ **Vite** – Lightning-fast frontend tooling
 * 🗼️ **Vue 3** – Composition API & reactive UI
 * ⌨️ **TypeScript** – Type-safe JavaScript
 * 💲 **Pinia** – Lightweight state management
 * 🌐 **Vue Router** – Client-side routing
+  > > > > > > > feature/tests-config
 
 ---
 
@@ -28,6 +37,11 @@ npm install
 npm run dev
 ```
 
+<<<<<<< HEAD
+
+=======
+
+> > > > > > > feature/tests-config
 
 ---
 
@@ -49,11 +63,10 @@ src/
 
 ## 🧪 Features
 
-* 📦 Product listing
-* 🔍 Product details
-* 🛒 Add to cart
-* 💳 Checkout placeholder
-* ⚡ Fast development with Vite
+- 📦 Product listing
+- 🔍 Product details
+- 🛒 Add to cart
+- 💳 Checkout placeholder
+- ⚡ Fast development with Vite
 
 ---
-
