@@ -3,9 +3,7 @@
     <div class="container navbar-inner">
 
       <div class="logo">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 6h-4v20h4v-8h8v-4h-8V6z" fill="#333" />
-        </svg>
+        <LogoIcon />
       </div>
 
       <nav :class="['nav-links', { open: isOpen }]">
@@ -50,10 +48,11 @@
 import { defineComponent } from 'vue'
 import { RouterLink } from 'vue-router'
 import { mapGetters } from 'vuex'
+import LogoIcon from './Logo.vue'
 import '../styles/navbar.css'
 export default defineComponent({
   name: 'NavbarComponent',
-  components: { RouterLink },
+  components: { RouterLink, LogoIcon },
   computed: {
     ...mapGetters(['cartCount']),
   },
@@ -69,25 +68,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-.cart-btn {
-  position: relative;
-}
-
-.cart-badge {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background: #e63946;
-  color: #fff;
-  border-radius: 50%;
-  padding: 2px 7px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  min-width: 22px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(230, 57, 70, 0.15);
-  z-index: 1;
-}
-</style>
