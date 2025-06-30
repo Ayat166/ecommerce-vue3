@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import ProductCard from '../ProductCard.vue'
-import { createStore } from 'vuex'
+
 import { RouterLinkStub } from '@vue/test-utils'
 
 describe('ProductCard', () => {
@@ -16,18 +16,20 @@ describe('ProductCard', () => {
   const actions = {
     addToCart: vi.fn(),
   }
-
-  const store = createStore({
-    actions,
-  })
+  // Instead of creating a full Vuex store, we can mock $store directly
+  const global = {
+    mocks: {
+      $store: {
+        dispatch: actions.addToCart,
+      },
+    },
+    stubs: { RouterLink: RouterLinkStub },
+  }
 
   it('renders product title, price, and image', () => {
     const wrapper = shallowMount(ProductCard, {
       props: { product },
-      global: {
-        plugins: [store],
-        stubs: { RouterLink: RouterLinkStub },
-      },
+      global,
     })
     expect(wrapper.text()).toContain(product.title)
     expect(wrapper.text()).toContain(product.price.toString())
@@ -37,10 +39,7 @@ describe('ProductCard', () => {
   it('displays correct number of rating stars', () => {
     const wrapper = shallowMount(ProductCard, {
       props: { product },
-      global: {
-        plugins: [store],
-        stubs: { RouterLink: RouterLinkStub },
-      },
+      global,
     })
     expect(wrapper.text()).toContain('★★★★☆')
   })
@@ -48,10 +47,7 @@ describe('ProductCard', () => {
   it('calls addToCart when button is clicked', async () => {
     const wrapper = shallowMount(ProductCard, {
       props: { product },
-      global: {
-        plugins: [store],
-        stubs: { RouterLink: RouterLinkStub },
-      },
+      global,
     })
     await wrapper.find('button.add-to-cart').trigger('click')
     expect(actions.addToCart).toHaveBeenCalled()
@@ -60,10 +56,7 @@ describe('ProductCard', () => {
   it('links to the correct product details page', () => {
     const wrapper = shallowMount(ProductCard, {
       props: { product },
-      global: {
-        plugins: [store],
-        stubs: { RouterLink: RouterLinkStub },
-      },
+      global,
     })
     const link = wrapper.findComponent(RouterLinkStub)
     expect(link.props('to')).toBe(`/product/${product.id}`)
