@@ -4,7 +4,9 @@ import SortDropdown from '../SortDropdown.vue'
 
 describe('SortDropdown', () => {
   it('renders all sort options', () => {
-    const wrapper = shallowMount(SortDropdown)
+    const wrapper = shallowMount(SortDropdown, {
+      props: { modelValue: 'default' },
+    })
     const options = wrapper.findAll('option')
     expect(options).toHaveLength(4)
     expect(options[0].text()).toBe('All Products')
@@ -13,18 +15,22 @@ describe('SortDropdown', () => {
     expect(options[3].text()).toBe('Highest Rated')
   })
 
-  it('emits sort event with correct value when changed', async () => {
-    const wrapper = shallowMount(SortDropdown)
+  it('emits update:modelValue event with correct value when changed', async () => {
+    const wrapper = shallowMount(SortDropdown, {
+      props: { modelValue: 'default' },
+    })
     const select = wrapper.find('select')
     await select.setValue('price-asc')
-    expect(wrapper.emitted('sort')).toBeTruthy()
-    expect(wrapper.emitted('sort')![0]).toEqual(['price-asc'])
+    expect(wrapper.emitted('update:modelValue')).toBeTruthy()
+    expect(wrapper.emitted('update:modelValue')![0]).toEqual(['price-asc'])
     await select.setValue('rating')
-    expect(wrapper.emitted('sort')![1]).toEqual(['rating'])
+    expect(wrapper.emitted('update:modelValue')![1]).toEqual(['rating'])
   })
 
   it('has default selected value as "default"', () => {
-    const wrapper = shallowMount(SortDropdown)
+    const wrapper = shallowMount(SortDropdown, {
+      props: { modelValue: 'default' },
+    })
     const select = wrapper.find('select')
     expect((select.element as HTMLSelectElement).value).toBe('default')
   })
