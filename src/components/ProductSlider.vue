@@ -18,72 +18,47 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
-import type { PropType } from 'vue';
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import type { Product } from '../types/Product';
 import ProductCard from './ProductCard.vue';
-import type { Product } from '../stores';
 
-export default defineComponent({
-  name: 'ProductSlider',
-  components: { ProductCard },
-  props: {
-    products: {
-      type: Array as PropType<Product[]>,
-      required: true,
-    },
-    visibleCount: {
-      type: Number,
-      default: 3,
-    },
-  },
-  setup(props) {
-    // --- True infinite/circular slider logic ---
-    const isTransitioning = ref(true);
-    const currentIndex = ref(0); // Always points to the first visible item
+const props = defineProps<{
+  products: Product[];
+  visibleCount: number;
+}>();
 
-    // Helper to get the correct product index, wrapping around
-    function getProductAt(idx: number) {
-      const len = props.products.length;
-      if (len === 0) return null;
-      return props.products[((idx % len) + len) % len];
-    }
+const isTransitioning = ref(true);
+const currentIndex = ref(0);
 
-    // The visible window of products, always length visibleCount
-    const displayProducts = computed(() => {
-      const arr = [];
-      for (let i = 0; i < props.visibleCount; i++) {
-        arr.push(getProductAt(currentIndex.value + i));
-      }
-      return arr;
-    });
+const prevSlide = () => {
+  if (props.products.length === 0) return;
+  isTransitioning.value = true;
+  currentIndex.value = (currentIndex.value - 1 + props.products.length) % props.products.length;
+}
 
-    // Always translate by 0, since we only show visibleCount items
-    const trackTranslate = computed(() => 0);
+const nextSlide = () => {
+  if (props.products.length === 0) return;
+  isTransitioning.value = true;
+  currentIndex.value = (currentIndex.value + 1) % props.products.length;
+}
 
-    function prevSlide() {
-      if (props.products.length === 0) return;
-      isTransitioning.value = true;
-      currentIndex.value = (currentIndex.value - 1 + props.products.length) % props.products.length;
-    }
+const getProductAt = (idx: number) => {
+  const len = props.products.length;
+  if (len === 0) return null;
+  return props.products[((idx % len) + len) % len];
+}
 
-    function nextSlide() {
-      if (props.products.length === 0) return;
-      isTransitioning.value = true;
-      currentIndex.value = (currentIndex.value + 1) % props.products.length;
-    }
+const displayProducts = computed(() => {
+  const arr = [];
+  for (let i = 0; i < props.visibleCount; i++) {
+    arr.push(getProductAt(currentIndex.value + i));
+  }
+  return arr;
+}); 
 
-    return {
-      currentIndex,
-      prevSlide,
-      nextSlide,
-      props,
-      displayProducts,
-      trackTranslate,
-      isTransitioning,
-    };
-  },
-});
+const trackTranslate = computed(() => 0);
+
 </script>
 
 <style scoped>
