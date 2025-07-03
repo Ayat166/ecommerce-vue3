@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
-import Layout from '../Layout.vue'
+import Layout from '../LayoutComponent.vue'
 
 // Mocks for child components
 const NavbarComponent = {
