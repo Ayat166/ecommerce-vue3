@@ -44,27 +44,19 @@
   </header>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { RouterLink } from 'vue-router'
-import { mapGetters } from 'vuex'
-import LogoIcon from './Logo.vue'
-import '../styles/navbar.css'
-export default defineComponent({
-  name: 'NavbarComponent',
-  components: { RouterLink, LogoIcon },
-  computed: {
-    ...mapGetters(['cartCount']),
-  },
-  data() {
-    return {
-      isOpen: false
-    }
-  },
-  methods: {
-    toggleMenu() {
-      this.isOpen = !this.isOpen
-    }
-  }
-})
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
+import LogoIcon from './Logo.vue';
+import type { ProductCart } from '../types/ProductCart';
+const store = useStore();
+const isOpen = ref(false);
+const toggleMenu = () => {
+  isOpen.value = !isOpen.value;
+};
+// Use computed for cartCount to ensure reactivity
+const cartCount = computed(() => {
+  const cartItems = store.getters.cartItems as ProductCart[];
+  return cartItems.reduce((total, item) => total + item.quantity, 0);
+});
 </script>
