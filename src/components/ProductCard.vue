@@ -20,34 +20,54 @@
     </div>
 </template>
 
-<script lang="ts">
-import { RouterLink } from 'vue-router'
-import { mapActions } from 'vuex';
+<script setup lang="ts">
+import { RouterLink } from 'vue-router';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+import type { Product } from '../types/Product';
 
-export default {
-    name: 'ProductCard',
-    props: {
-        product: {
-            type: Object,
-            required: true
-        }
-    },
-    components: {
-        RouterLink
-    },
-    computed: {
-        ratingStars() {
-            const rate = Math.round(this.product.rating?.rate || 0);
-            return '★'.repeat(rate) + '☆'.repeat(5 - rate);
-        }
-    },
-    methods: {
-        ...mapActions(['addToCart']),
-        handleAddToCart() {
-            this.addToCart(this.product);
-        }
-    },
+const store = useStore();
+const props = defineProps<{
+  product: Product;
+}>();
+
+const ratingStars = computed(() => {
+  const rate = Math.round(props.product.rating?.rate || 0);
+  return '★'.repeat(rate) + '☆'.repeat(5 - rate);
+});
+
+const handleAddToCart = () => {
+  store.dispatch('addToCart', props.product);
 }
+
+
+// import { RouterLink } from 'vue-router'
+// import { mapActions } from 'vuex';
+
+// export default {
+//     name: 'ProductCard',
+//     props: {
+//         product: {
+//             type: Object,
+//             required: true
+//         }
+//     },
+//     components: {
+//         RouterLink
+//     },
+//     computed: {
+//         ratingStars() {
+//             const rate = Math.round(this.product.rating?.rate || 0);
+//             return '★'.repeat(rate) + '☆'.repeat(5 - rate);
+//         }
+//     },
+//     methods: {
+//         ...mapActions(['addToCart']),
+//         handleAddToCart() {
+//             this.addToCart(this.product);
+//         }
+//     },
+// }
 </script>
 
 <style scoped>
