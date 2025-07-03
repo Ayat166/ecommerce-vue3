@@ -1,7 +1,7 @@
 <template>
     <div class="sort-dropdown">
         <label for="sort">Sort by:</label>
-        <select id="sort" v-model="selectedSort" @change="sortProducts">
+        <select id="sort" :value="modelValue" @change="onChange">
             <option value="default">All Products</option>
             <option value="price-asc">Price: Low to High</option>
             <option value="price-desc">Price: High to Low</option>
@@ -10,19 +10,36 @@
     </div>
 </template>
 
-<script lang="ts">
-export default {
-    data() {
-        return {
-            selectedSort: 'default'
-        }
-    },
-    methods: {
-        sortProducts() {
-            this.$emit('sort', this.selectedSort);
-        }
-    }
-}
+<script setup lang="ts">
+import { defineProps, defineEmits } from 'vue';
+
+const props = defineProps<{
+    modelValue: string
+}>();
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: string): void
+}>();
+
+const onChange = (event: Event) => {
+    const value = (event.target as HTMLSelectElement).value;
+    emit('update:modelValue', value);
+};
+// import { defineComponent } from 'vue';
+// export default defineComponent({
+//     props: {
+//         modelValue: {
+//             type: String,
+//             default: 'default'
+//         }
+//     },
+//     emits: ['update:modelValue'],
+//     methods: {
+//         onChange(event: Event) {
+//             const value = (event.target as HTMLSelectElement).value;
+//             this.$emit('update:modelValue', value);
+//         }
+//     }
+// });
 </script>
 
 <style scoped>
