@@ -2,7 +2,7 @@
   <div class="products-page">
     <h1>Products</h1>
     <div class="sort-controls">
-      <SortDropdown @sort="sortProducts" />
+      <SortDropdown v-model="selectedSort" />
     </div>
     <div class="product-cards">
       <ProductCard v-for="product in products" :key="product.id" :product="product" />
@@ -11,13 +11,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 import ProductCard from '../components/ProductCard.vue';
 import SortDropdown from '../components/SortDropdown.vue';
-import type { Product } from '../stores';
+import type { Product } from '../types/Product'
+
 const store = useStore();
+
 const products = ref<Product[]>([]);
+const selectedSort = ref('default');
 const fetchProducts = async () => {
   await store.dispatch('fetchProducts');
   products.value = [...(store.getters.allProducts as Product[])];
@@ -38,9 +41,18 @@ const sortProducts = (sortOption: string) => {
     products.value = [...(store.getters.allProducts as Product[])];
   }
 };
+watch(selectedSort, (newSort) => {
+  sortProducts(newSort);
+});
 onMounted(() => {
   fetchProducts();
 });
+
+// defineExpose({
+//   products,
+//   fetchProducts,
+//   sortProducts,
+// });
 
 // import ProductCard from '../components/ProductCard.vue'
 // import { mapGetters, mapActions } from 'vuex';

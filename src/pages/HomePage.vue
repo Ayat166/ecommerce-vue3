@@ -21,7 +21,7 @@ import { onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import ProductSlider from '../components/ProductSlider.vue';
 import LogoIcon from '../components/Logo.vue';
-import type { Product } from '../stores';
+import type { Product } from '../types/Product'
 const store = useStore();
 const topProducts = computed(() => {
   return [...(store.state.products || [])]

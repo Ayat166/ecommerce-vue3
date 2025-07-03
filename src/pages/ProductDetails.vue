@@ -21,7 +21,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { RouterLink } from 'vue-router'
-import type { Product } from '../stores';
+import type { Product } from '../types/Product'
 
 const route = useRoute()
 const store = useStore()
