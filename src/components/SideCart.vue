@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import { useStore } from 'vuex';
+import { useStore } from '../stores/index';
 import { computed } from 'vue';
 import type { ProductCart } from '../types/ProductCart';
 
@@ -51,10 +51,10 @@ const props = defineProps<{ isActive: boolean }>();
 
 const store = useStore();
 // Ensure cartItemsArray is reactive
-const cartItemsArray = computed(() => store.getters.cartItems as ProductCart[]);
+const cartItemsArray = computed(() => store.cartItems);
 
 const handleRemove = (productId: number) => {
-  store.dispatch('removeFromCart', productId);
+  store.removeFromCart(productId);
 }
 
 // import { defineComponent } from 'vue'

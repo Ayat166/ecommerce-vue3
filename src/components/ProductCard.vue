@@ -22,22 +22,22 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import { useStore } from 'vuex';
+import { useStore } from '../stores/index';
 import { computed } from 'vue';
 import type { Product } from '../types/Product';
 
 const store = useStore();
 const props = defineProps<{
-  product: Product;
+    product: Product;
 }>();
 
 const ratingStars = computed(() => {
-  const rate = Math.round(props.product.rating?.rate || 0);
-  return '★'.repeat(rate) + '☆'.repeat(5 - rate);
+    const rate = Math.round(props.product.rating?.rate || 0);
+    return '★'.repeat(rate) + '☆'.repeat(5 - rate);
 });
 
 const handleAddToCart = () => {
-  store.dispatch('addToCart', props.product);
+    store.addToCart(props.product);
 }
 
 
@@ -155,11 +155,13 @@ const handleAddToCart = () => {
     font-size: 0.95rem;
     margin-bottom: 1rem;
 }
+
 .product-price {
     font-weight: bold;
     color: #4cab58;
     margin-bottom: 0.5rem;
 }
+
 .product-rating {
     color: #9a8c98;
     font-size: 0.9rem;

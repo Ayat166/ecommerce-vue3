@@ -5,11 +5,9 @@ import './styles/navbar.css'
 // import '@fortawesome/fontawesome-free/css/all.min.css'
 import App from './App.vue'
 import router from './router'
-import store from './stores'
 
 const app = createApp(App)
-
-app.use(createPinia())
+const pinia = createPinia()
+app.use(pinia)
 app.use(router)
-app.use(store)
-app.mount('#app')
+app.mount('#app')   
