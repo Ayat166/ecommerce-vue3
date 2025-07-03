@@ -47,7 +47,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import LogoIcon from './Logo.vue';
+import LogoIcon from './LogoComponent.vue';
 import type { ProductCart } from '../types/ProductCart';
 const store = useStore();
 const isOpen = ref(false);

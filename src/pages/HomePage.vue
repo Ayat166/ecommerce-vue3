@@ -20,7 +20,7 @@
 import { onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import ProductSlider from '../components/ProductSlider.vue';
-import LogoIcon from '../components/Logo.vue';
+import LogoIcon from '../components/LogoComponent.vue';
 import type { Product } from '../types/Product'
 const store = useStore();
 const topProducts = computed(() => {

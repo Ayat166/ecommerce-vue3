@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import NavbarComponent from './NavbarComponent.vue';
-import FooterComponent from './Footer.vue';
+import FooterComponent from './FooterComponent.vue';
 import SideCart from './SideCart.vue';
 import { ref } from 'vue';
 const sideCartOpen = ref(false);
