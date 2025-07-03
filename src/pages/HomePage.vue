@@ -18,20 +18,20 @@
 
 <script setup lang="ts">
 import { onMounted, computed } from 'vue';
-import { useStore } from 'vuex';
+import { useStore } from '../stores/index';
 import ProductSlider from '../components/ProductSlider.vue';
 import LogoIcon from '../components/LogoComponent.vue';
 import type { Product } from '../types/Product'
 const store = useStore();
 const topProducts = computed(() => {
-  return [...(store.state.products || [])]
+  return [...(store.allProducts || [])]
     .filter((p: Product) => p.rating && typeof p.rating.rate === 'number')
     .sort((a: Product, b: Product) => b.rating.rate - a.rating.rate)
     .slice(0, 6);
 });
 onMounted(() => {
-  if (!store.state.products || store.state.products.length === 0) {
-    store.dispatch('fetchProducts');
+  if (!store.products || store.products.length === 0) {
+    store.fetchProducts();
   }
 });
 // import { onMounted, computed } from 'vue';

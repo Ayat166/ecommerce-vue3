@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
-import { useStore } from 'vuex';
+import { useStore } from '../stores/index';
 import ProductCard from '../components/ProductCard.vue';
 import SortDropdown from '../components/SortDropdown.vue';
 import type { Product } from '../types/Product'
@@ -22,8 +22,8 @@ const store = useStore();
 const products = ref<Product[]>([]);
 const selectedSort = ref('default');
 const fetchProducts = async () => {
-  await store.dispatch('fetchProducts');
-  products.value = [...(store.getters.allProducts as Product[])];
+  await store.fetchProducts();
+  products.value = [...(store.allProducts as Product[])];
 };
 const sortProducts = (sortOption: string) => {
   if (sortOption === 'price-asc') {
@@ -38,7 +38,7 @@ const sortProducts = (sortOption: string) => {
     });
   } else {
     // Default case: no sorting
-    products.value = [...(store.getters.allProducts as Product[])];
+    products.value = [...(store.allProducts as Product[])];
   }
 };
 watch(selectedSort, (newSort) => {
