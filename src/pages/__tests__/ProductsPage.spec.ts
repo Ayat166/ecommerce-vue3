@@ -1,6 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { shallowMount, VueWrapper } from '@vue/test-utils'
 import Products from '../ProductsPage.vue'
+import { createTestingPinia } from '@pinia/testing'
+import { vi } from 'vitest'
 
 // Mock products data
 const mockProducts = [
@@ -9,22 +11,6 @@ const mockProducts = [
   { id: 3, title: 'C', price: 5, rating: { rate: 5 } },
 ]
 
-// Mock store object
-const mockStore = {
-  getters: {
-    allProducts: mockProducts,
-  },
-  dispatch: vi.fn().mockResolvedValue(undefined),
-}
-
-// Mock the vuex module, including mapActions
-vi.mock('vuex', () => ({
-  useStore: () => mockStore,
-  mapActions: () => ({
-    fetchProducts: vi.fn(),
-  }),
-}))
-
 describe('ProductsPage.vue', () => {
   let wrapper: VueWrapper<any>
 
@@ -32,6 +18,17 @@ describe('ProductsPage.vue', () => {
     wrapper = shallowMount(Products, {
       global: {
         stubs: ['ProductCard', 'SortDropdown'],
+        plugins: [
+          createTestingPinia({
+            initialState: {
+              store: {
+                products: mockProducts,
+              },
+            },
+            stubActions: true,
+            createSpy: vi.fn,
+          }),
+        ],
       },
     })
     await wrapper.vm.$nextTick()
