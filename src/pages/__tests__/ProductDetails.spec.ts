@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { shallowMount, RouterLinkStub, VueWrapper } from '@vue/test-utils'
 import ProductDetails from '../ProductDetails.vue'
-
+import { createTestingPinia } from '@pinia/testing'
+import { useStore } from '../../stores/index'
 // Mock product data
 const mockProduct = {
   id: 1,
@@ -12,40 +13,38 @@ const mockProduct = {
   rating: { rate: 4, count: 10 },
 }
 
-// Mock store object
-const mockStore = {
-  getters: {
-    currentProduct: mockProduct,
-  },
-  dispatch: vi.fn().mockResolvedValue(undefined),
-}
-
-// Mock the vuex module, including useStore
-vi.mock('vuex', () => ({
-  useStore: () => mockStore,
-}))
-
-// Mock vue-router's useRoute
-vi.mock('vue-router', () => ({
-  useRoute: () => ({
-    params: { id: mockProduct.id }
-  }),
-  RouterLink: { name: 'RouterLink', template: '<div><slot /></div>' }
-}))
-
 type ProductDetailsVm = InstanceType<typeof ProductDetails>
 
 describe('ProductDetails.vue', () => {
   let wrapper: VueWrapper<ProductDetailsVm>
 
   beforeEach(async () => {
+    vi.mock('vue-router', async () => {
+      const actual = await vi.importActual<typeof import('vue-router')>('vue-router')
+      return {
+        ...actual,
+        useRoute: () => ({ params: { id: 1 } }),
+      }
+    })
     wrapper = shallowMount(ProductDetails, {
       global: {
         stubs: { RouterLink: RouterLinkStub },
+        plugins: [
+          createTestingPinia({
+            initialState: {
+              store: {
+                product: mockProduct,
+              },
+            },
+            stubActions: true,
+            createSpy: vi.fn,
+          }),
+        ],
+        mocks: {
+          $route: { params: { id: 1 } }
+        }
       },
     }) as VueWrapper<ProductDetailsVm>
-    // Set product directly to avoid data() type error
-    ;(wrapper.vm as any).product = mockProduct
     await wrapper.vm.$nextTick()
   })
 
@@ -64,7 +63,10 @@ describe('ProductDetails.vue', () => {
   })
 
   it('calls addToCart when button is clicked', async () => {
+    // Get the store instance used in the component
+    const store = useStore()
+    const addToCartSpy = vi.spyOn(store, 'addToCart')
     await wrapper.find('.add-to-cart').trigger('click')
-    expect(mockStore.dispatch).toHaveBeenCalledWith('addToCart', mockProduct)
+    expect(addToCartSpy).toHaveBeenCalledWith(mockProduct)
   })
 })
