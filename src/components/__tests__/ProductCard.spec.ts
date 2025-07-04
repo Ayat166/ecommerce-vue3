@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, VueWrapper } from '@vue/test-utils'
 import ProductCard from '../ProductCard.vue'
 import { RouterLinkStub } from '@vue/test-utils'
-
+import { createTestingPinia } from '@pinia/testing'
+import { useStore } from '../../stores/index'
 // Mock product with all required fields
-const product = {
+const mockProduct = {
   id: 1,
   title: 'Test Product',
   price: 99.99,
@@ -13,58 +14,51 @@ const product = {
   rating: { rate: 4, count: 10 },
 }
 
-// Mock store object
-const mockStore = {
-  dispatch: vi.fn(),
-}
-
-// Mock the vuex module, including useStore
-vi.mock('vuex', () => ({
-  useStore: () => mockStore,
-}))
-
 describe('ProductCard', () => {
-  const global = {
-    stubs: { RouterLink: RouterLinkStub },
-  }
 
-  beforeEach(() => {
-    mockStore.dispatch.mockClear()
-  })
+  let wrapper: VueWrapper<any>
 
-  it('renders product title, price, and image', () => {
-    const wrapper = shallowMount(ProductCard, {
-      props: { product },
-      global,
+  beforeEach(async () => {
+    wrapper = shallowMount(ProductCard, {
+      props: {
+        product: mockProduct
+      },
+      global: {
+        stubs: { RouterLink: RouterLinkStub },
+        plugins: [
+          createTestingPinia({
+            initialState: {
+              store: {
+                product: mockProduct,
+              },
+            },
+            stubActions: false,
+            createSpy: vi.fn,
+          }),
+        ],
+      },
     })
-    expect(wrapper.text()).toContain(product.title)
-    expect(wrapper.text()).toContain(product.price.toString())
-    expect(wrapper.find('img').attributes('src')).toBe(product.image)
+    await wrapper.vm.$nextTick()
+  })
+  it('renders product title, price, and image', () => {
+    expect(wrapper.text()).toContain(mockProduct.title)
+    expect(wrapper.text()).toContain(mockProduct.price.toString())
+    expect(wrapper.find('img').attributes('src')).toBe(mockProduct.image)
   })
 
   it('displays correct number of rating stars', () => {
-    const wrapper = shallowMount(ProductCard, {
-      props: { product },
-      global,
-    })
     expect(wrapper.text()).toContain('★★★★☆')
   })
 
   it('calls addToCart when button is clicked', async () => {
-    const wrapper = shallowMount(ProductCard, {
-      props: { product },
-      global,
-    })
+    const store = useStore()
+    const addToCartSpy = vi.spyOn(store, 'addToCart')
     await wrapper.find('button.add-to-cart').trigger('click')
-    expect(mockStore.dispatch).toHaveBeenCalledWith('addToCart', product)
+    expect(addToCartSpy).toHaveBeenCalledWith(mockProduct)
   })
 
   it('links to the correct product details page', () => {
-    const wrapper = shallowMount(ProductCard, {
-      props: { product },
-      global,
-    })
     const link = wrapper.findComponent(RouterLinkStub)
-    expect(link.props('to')).toBe(`/product/${product.id}`)
+    expect(link.props('to')).toBe(`/product/${mockProduct.id}`)
   })
 })
