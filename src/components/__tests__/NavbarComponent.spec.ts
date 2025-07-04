@@ -1,30 +1,53 @@
 import { describe, it, expect, vi } from 'vitest'
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, VueWrapper } from '@vue/test-utils'
 import Navbar from '../NavbarComponent.vue'
 import { RouterLinkStub } from '@vue/test-utils'
+import { createTestingPinia } from '@pinia/testing'
+import type { ProductCart } from '@/types/ProductCart'
 
-// Mock store object
-const mockStore = {
-  getters: {
-    cartItems: [
-      { product: { id: 1, title: 'A', price: 10 }, quantity: 2 },
-      { product: { id: 2, title: 'B', price: 20 }, quantity: 1 }
-    ]
+
+const mockProducts: ProductCart[] = [
+  {
+    product: {
+      id: 1, title: 'A', price: 10, description: 'A great product',
+      image: 'test.jpg',
+      rating: { rate: 4.5, count: 100 }
+    }, quantity: 2
+  },
+  {
+    product: {
+      id: 2, title: 'B', price: 20, description: 'A great product',
+      image: 'test.jpg',
+      rating: { rate: 4.5, count: 100 }
+    }, quantity: 1
   }
+]
+
+function mountComponent(mockProducts: ProductCart[] = []) {
+  return shallowMount(Navbar, {
+    global: {
+      stubs: { RouterLink: RouterLinkStub },
+      plugins: [
+        createTestingPinia({
+          initialState: {
+            store: {
+              cart: mockProducts
+            },
+          },
+          stubActions: false,
+          createSpy: vi.fn,
+        }),
+      ]
+    }
+  })
 }
 
-// Mock the vuex module, including useStore
-vi.mock('vuex', () => ({
-  useStore: () => mockStore,
-}))
-
 describe('Navbar', () => {
-  const global = {
-    stubs: { RouterLink: RouterLinkStub },
-  }
+  let wrapper: VueWrapper<any>
+
 
   it('renders navigation links', () => {
-    const wrapper = shallowMount(Navbar, { global })
+    wrapper = mountComponent(mockProducts)
     const links = wrapper.findAllComponents(RouterLinkStub)
     expect(links).toHaveLength(3)
     expect(links[0].props('to')).toBe('/')
@@ -33,35 +56,29 @@ describe('Navbar', () => {
   })
 
   it('shows cart badge with correct count', () => {
-    mockStore.getters.cartItems = [
-      { product: { id: 1, title: 'A', price: 10 }, quantity: 2 },
-      { product: { id: 2, title: 'B', price: 20 }, quantity: 1 }
-    ]
-    const wrapper = shallowMount(Navbar, { global })
+    wrapper = mountComponent(mockProducts)
+
     const badge = wrapper.find('.cart-badge')
     expect(badge.exists()).toBe(true)
     expect(badge.text()).toBe('3')
   })
 
   it('does not show cart badge when cartCount is 0', () => {
-    mockStore.getters.cartItems = []
-    const wrapper = shallowMount(Navbar, { global })
+    wrapper = mountComponent([])
     const badge = wrapper.find('.cart-badge')
-    // The badge always exists in the DOM, but is hidden with v-show when cartCount is 0
     expect(badge.isVisible()).toBe(false)
   })
 
   it('emits show-cart event when cart button is clicked', async () => {
-    const wrapper = shallowMount(Navbar, { global })
+    wrapper = mountComponent(mockProducts)
     const cartBtn = wrapper.find('.cart-btn')
     await cartBtn.trigger('click')
     expect(wrapper.emitted('show-cart')).toBeTruthy()
   })
 
   it('toggles menu when menu button is clicked', async () => {
-    const wrapper = shallowMount(Navbar, { global })
+    wrapper = mountComponent(mockProducts)
     const menuBtn = wrapper.find('.menu-toggle')
-    // Check class on nav to determine open/closed state
     const nav = wrapper.find('.nav-links')
     expect(nav.classes()).not.toContain('open')
     await menuBtn.trigger('click')
