@@ -48,7 +48,7 @@
 import { ref, computed } from 'vue';
 import { useStore } from '../stores/index';
 import LogoIcon from './LogoComponent.vue';
-import type { ProductCart } from '../types/ProductCart';
+
 const store = useStore();
 const isOpen = ref(false);
 const toggleMenu = () => {
@@ -56,7 +56,7 @@ const toggleMenu = () => {
 };
 // Use computed for cartCount to ensure reactivity
 const cartCount = computed(() => {
-  const cartItems = store.cartItems;
-  return cartItems.reduce((total, item) => total + item.quantity, 0);
+  const cartCount = store.cartCount;
+  return cartCount ? cartCount.toString() : '0';
 });
 </script>

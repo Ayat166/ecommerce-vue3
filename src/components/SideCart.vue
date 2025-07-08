@@ -44,10 +44,9 @@
 import { RouterLink } from 'vue-router';
 import { useStore } from '../stores/index';
 import { computed } from 'vue';
-import type { ProductCart } from '../types/ProductCart';
-
+import { defineProps } from 'vue';
 // Accept isActive as a prop
-const props = defineProps<{ isActive: boolean }>();
+defineProps<{ isActive: boolean }>();
 
 const store = useStore();
 // Ensure cartItemsArray is reactive
