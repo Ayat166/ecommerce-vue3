@@ -24,22 +24,6 @@ const onChange = (event: Event) => {
   const value = (event.target as HTMLSelectElement).value;
   emit('update:modelValue', value);
 };
-// import { defineComponent } from 'vue';
-// export default defineComponent({
-//     props: {
-//         modelValue: {
-//             type: String,
-//             default: 'default'
-//         }
-//     },
-//     emits: ['update:modelValue'],
-//     methods: {
-//         onChange(event: Event) {
-//             const value = (event.target as HTMLSelectElement).value;
-//             this.$emit('update:modelValue', value);
-//         }
-//     }
-// });
 </script>
 
 <style scoped>

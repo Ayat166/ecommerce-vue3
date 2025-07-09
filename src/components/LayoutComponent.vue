@@ -15,24 +15,6 @@ import FooterComponent from './FooterComponent.vue';
 import SideCart from './SideCart.vue';
 import { ref } from 'vue';
 const sideCartOpen = ref(false);
-
-// import NavbarComponent from './Navbar.vue'
-// import FooterComponent from './Footer.vue'
-// import SideCart from './SideCart.vue'
-
-// export default {
-//     name: 'LayoutPage',
-//     components: {
-//         NavbarComponent,
-//         FooterComponent,
-//         SideCart
-//     },
-//     data() {
-//         return {
-//             sideCartOpen: false
-//         }
-//     }
-// }
 </script>
 
 <style scoped>

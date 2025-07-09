@@ -17,26 +17,7 @@ export const useStore = defineStore('store', {
     product: null,
     cart: [] as ProductCart[],
   }),
-  // mutations: {
-  //   setProducts(state: State, products: Product[]) {
-  //     state.products = products
-  //   },
-  //   setProduct(state: State, product: Product | null) {
-  //     state.product = product
-  //   },
-  //   addCartItem(state: State, item: ProductCart) {
-  //     state.cart.push(item)
-  //   },
-  //   updateCartItemQuantity(state: State, payload: { productId: number; quantity: number }) {
-  //     const existingProduct = state.cart.find((item) => item.product.id === payload.productId)
-  //     if (existingProduct) {
-  //       existingProduct.quantity = payload.quantity
-  //     }
-  //   },
-  //   removeCartItem(state: State, productId: number) {
-  //     state.cart = state.cart.filter((item) => item.product.id !== productId)
-  //   },
-  // },
+
   actions: {
     async fetchProducts() {
       const res = await fetch('https://fakestoreapi.com/products')

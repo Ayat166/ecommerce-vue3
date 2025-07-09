@@ -34,35 +34,5 @@ onMounted(() => {
     store.fetchProducts();
   }
 });
-// import { onMounted, computed } from 'vue';
-// import { useStore } from 'vuex';
-// import ProductSlider from '../components/ProductSlider.vue';
-// import LogoIcon from '../components/Logo.vue';
 
-// export default {
-//   name: "HomePage",
-//   components: {
-//     ProductSlider,
-//     LogoIcon,
-//   },
-//   setup() {
-//     const store = useStore();
-
-//     onMounted(() => {
-//       if (!store.state.products || store.state.products.length === 0) {
-//         store.dispatch('fetchProducts');
-//       }
-//     });
-
-//     // Get top 6 rated products
-//     const topProducts = computed(() => {
-//       return [...(store.state.products || [])]
-//         .filter(p => p.rating && typeof p.rating.rate === 'number')
-//         .sort((a, b) => b.rating.rate - a.rating.rate)
-//         .slice(0, 6);
-//     });
-
-//     return { topProducts };
-//   },
-// }
 </script>

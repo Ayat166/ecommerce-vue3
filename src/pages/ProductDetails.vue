@@ -43,39 +43,6 @@ onMounted(async () => {
   product.value = store.currentProduct
 })
 
-
-// export default {
-//   name: 'ProductDetails',
-//   components: { RouterLink },
-//   computed: {
-//     productId() {
-//       return this.$route.params.id;
-//     },
-//     ratingStars() {
-//       const rate = Math.round(this.product?.rating?.rate || 0);
-//       return '★'.repeat(rate) + '☆'.repeat(5 - rate);
-//     },
-//     ...mapGetters(['currentProduct'])
-//   },
-//   data() {
-//     return {
-//       product: null,
-//     }
-//   },
-
-//   methods: {
-//     ...mapActions(['fetchProduct']),
-//     ...mapActions(['addToCart']),
-//     handleAddToCart() {
-//       this.addToCart(this.product);
-//     }
-//   },
-//   mounted() {
-//     this.fetchProduct(this.productId).then(() => {
-//       this.product = this.currentProduct;
-//     });
-//   },
-// }
 </script>
 
 <style scoped>

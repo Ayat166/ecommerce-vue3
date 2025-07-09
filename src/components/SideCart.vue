@@ -56,33 +56,6 @@ const handleRemove = (productId: number) => {
   store.removeFromCart(productId);
 }
 
-// import { defineComponent } from 'vue'
-// import { RouterLink } from 'vue-router';
-// import { mapGetters, mapActions } from 'vuex';
-// export default defineComponent({
-//   props: {
-//     isActive: {
-//       type: Boolean,
-//       required: true
-//     }
-//   },
-//   components: {
-//     RouterLink
-//   },
-//   computed: {
-//     ...mapGetters(['cartItems']),
-//     cartItemsArray() {
-//       return this.cartItems;
-//     }
-//   },
-//   methods: {
-//     ...mapActions(['removeFromCart']),
-//     handleRemove(productId: number) {
-//       this.removeFromCart(productId);
-//     }
-//   }
-
-// })
 </script>
 
 <style scoped>
